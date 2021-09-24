@@ -152,7 +152,7 @@ ls: cannot access /tmp/abc: No such file or directory
 
 ## 管道命令
 
-管道命令使用|符号界定用途时处理经由前面一个命令传来的正确信息,也就是stdout的内容,不能处理stderr错误.
+管道命令使用|符号界定用途时,将前一个命令的标准输出(stdout,不能处理stderr)转给后一命令做标准输入.
 
 每个管道后面接的第一个数据必须是命令,并且这个命令必须能接受stdin的数据.例如less,tail,grep等.
 
