@@ -29,19 +29,21 @@
 ext333
 ```
 
-使用myhome='ext333'的格式也能设置变量.
+使用myhome='ext333'的格式也能设置变量.通常变量值有带空格或特殊符号要这样设置.
 
-这样定义的变量值为字符串.
+注意等号两边如果有空格表示等量关系测试.
 
 
 
 ## 取消变量
 
-使用unset 变量名取消变量设置:
+使用`unset 变量名`取消变量设置:
 
 ```sh
 [root@101c7 4]# unset myhome
 ```
+
+记住删除环境变量时,不用带\$.所有使用变量时用\$,操作变量不使用\$.
 
 
 
@@ -82,13 +84,14 @@ lang is $LANG
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/root
 ```
 
-- 若该变量需要在其他子程序执行,用export来使变量变成环境变量:
+- 若该变量需要在其他子程序执行,用export来使当前变量变成环境变量:
 
 ```sh
 [root@101c7 4]# export PATH
 ```
 
-- 通常大写字符为系统默认变量,自行设置变量可以使用小写字符;
+- 在子程序中修改全局环境变量并不会影响父shell中该变量的值,使用export也无效.
+- 通常大写字符为系统默认环境变量,自行设置变量可以使用小写字符;
 
 
 
@@ -118,6 +121,17 @@ varlang='lang is $LANG'
 
 
 
+## 获取变量长度
+
+指取得变量字符串的长度,可以这样表示${#变量名}:
+
+```sh
+[root@server1 bin]# echo ${#PATH}
+59
+```
+
+
+
 ## $PATH变量
 
 环境变量PATH定义了可执行文件目录.
@@ -139,6 +153,54 @@ varlang='lang is $LANG'
 [root@101c7 a1]# PATH="$PATH":/root ; echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/root
 ```
+
+
+
+## 数组变量
+
+数组是能够储存多个值的变量,这些值可以单独引用,也可以作为整个数组来引用.
+
+要设置环境变量,可以把值放到括号里,值与值之间用空格分隔:
+
+```sh
+[root@server1 ~]# myarray=(one two)
+```
+
+使用echo直接变量只能读取第一个值,要引用一个单独的数组元素,必须使用索引值,从0开始索引:
+
+```sh
+[root@server1 ~]# echo $myarray 
+one
+[root@server1 ~]# echo ${myarray[1]}
+two
+```
+
+要显示整个数组变量,可以用星号作为通配符放在索引位置:
+
+```sh
+[root@server1 ~]# echo ${myarray[*]}
+one two
+```
+
+也可以直接修改某个索引位置的值:
+
+```sh
+[root@server1 ~]# myarray[1]=1
+[root@server1 ~]# echo ${myarray[1]}
+1
+```
+
+删除某个索引值位置的值用unset命令,它会清空对应索引值数据,但并不会重建索引:
+
+```sh
+[root@server1 ~]# unset myarray[0]
+[root@server1 ~]# echo ${myarray[0]}
+
+[root@server1 ~]# echo ${myarray[*]}
+1
+```
+
+对其他shell而言,数组变量可移植性不好,所以不常用到.
 
 
 
