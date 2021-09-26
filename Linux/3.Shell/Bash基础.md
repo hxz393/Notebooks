@@ -249,7 +249,7 @@ cat: xx: No such file or directory
 /root/.bashrc
 ```
 
-<<代表的含义是从标准输入接收数据,遇到了关键词则结束输入.例如下面设的结束关键词"end",输入end再敲击回车后,输入立马结束,不同于Ctrl+d结束输入,end这个关键词不会被记录到文件中,仅仅作为结束标记使用:
+<<称为内联输入重定向(Inline Input Redirection),代表的含义是从标准输入接收数据,遇到了关键词则结束输入.例如下面设的结束关键词"end",输入end再敲击回车后,输入立马结束,不同于Ctrl+d结束输入,end这个关键词不会被记录到文件中,仅仅作为结束标记使用:
 
 ```sh
 [root@101c7 ~]# cat > catfile << "end"
