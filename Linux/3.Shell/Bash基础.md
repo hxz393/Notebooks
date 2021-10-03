@@ -157,7 +157,7 @@ ls: cannot access /tmp/abc: No such file or directory
 
 ## 子shell
 
-把命令用括号括起来(可以是连续命令)后,命令列表就成为了进程列表.其作用表示使用一个子shell来执行对应命令.
+把命令用括号括起来(可以是连续命令)后,命令列表就成为了进程列表,这些命令被称为一个编组(Grouping).其作用表示使用一个子shell来执行对应命令.
 
 使用$BASH_SUBSHELL变量可以检测是否在子shell中运行:
 
