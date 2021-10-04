@@ -62,7 +62,7 @@ graphical
 
 恢复功能是指,当因为某些原因导致死机的情况下,能通过一些方法将之前未保存的数据找回来.
 
-在使用vim编辑文件时,vim会在被编辑文件同目录下新建一个名为.filename.swp的暂存文件.
+在使用vim编辑文件时,vim会在被编辑文件同目录下新建一个名为.filename.swp的交换文件.每当键入200个字符或有4秒没有键入内容时,交换文件都会自动地更新.
 
 例如用vi新建打开一个文件,在命令模式下按Ctrl+z中断,再查看.swp文件内容:
 
@@ -82,29 +82,29 @@ U3210#"! Utpad???
 再次打开会提示有swp临时文件存在:
 
 ```sh
-		[root@101c7 4]# vim 1.txt 
-		
-		E325: ATTENTION
-		Found a swap file by the name ".1.txt.swp"
-		          owned by: root   dated: Sat Sep 11 03:44:17 2021
-		         file name: ~root/4/1.txt
-		          modified: YES
-		         user name: root   host name: 101c7
-		        process ID: 87510 (still running)
-		While opening file "1.txt"
-		             dated: Sat Sep 11 03:44:11 2021
-		
-		(1) Another program may be editing the same file.  If this is the case,
-		    be careful not to end up with two different instances of the same
-		    file when making changes.  Quit, or continue with caution.
-		(2) An edit session for this file crashed.
-		    If this is the case, use ":recover" or "vim -r 1.txt"
-		    to recover the changes (see ":help recovery").
-		    If you did this already, delete the swap file ".1.txt.swp"
-		    to avoid this message.
-		
-		Swap file ".1.txt.swp" already exists!
-		[O]pen Read-Only, (E)dit anyway, (R)ecover, (Q)uit, (A)bort:
+[root@101c7 4]# vim 1.txt 
+
+E325: ATTENTION
+Found a swap file by the name ".1.txt.swp"
+          owned by: root   dated: Sat Sep 11 03:44:17 2021
+         file name: ~root/4/1.txt
+          modified: YES
+         user name: root   host name: 101c7
+        process ID: 87510 (still running)
+While opening file "1.txt"
+             dated: Sat Sep 11 03:44:11 2021
+
+(1) Another program may be editing the same file.  If this is the case,
+    be careful not to end up with two different instances of the same
+    file when making changes.  Quit, or continue with caution.
+(2) An edit session for this file crashed.
+    If this is the case, use ":recover" or "vim -r 1.txt"
+    to recover the changes (see ":help recovery").
+    If you did this already, delete the swap file ".1.txt.swp"
+    to avoid this message.
+
+Swap file ".1.txt.swp" already exists!
+[O]pen Read-Only, (E)dit anyway, (R)ecover, (Q)uit, (A)bort:
 ```
 
 提示说出现这一原因有两种情况:

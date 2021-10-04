@@ -143,9 +143,36 @@ ls: cannot access /tmp/abc: No such file or directory
 
 ## 管道命令
 
-管道命令使用|符号界定用途时,将前一个命令的标准输出(stdout,不能处理stderr)转给后一命令做标准输入.
+### 匿名管道(Anonymous Pipe)
+
+管道命令使用|符号界定用途时,将前一个命令的标准输出(stdout,不能处理stderr)转给后一命令做标准输入,管道将自动创建.
 
 每个管道后面接的第一个数据必须是命令,并且这个命令必须能接受stdin的数据.例如less,tail,grep等.
+
+### 命名管道(FIFO)
+
+命名管道(First-in First-out)和匿名管道相似,不同的是命名管道必须显式创建,并且可以重用.
+
+通常命名管道用来促进两个进程之间的数据交换,这一操作也叫做进程间通信(IPC, Interprocess Communication),程序将在需要时创建,使用然后删除命名管道.
+
+命名管道使用mkfifo命令来创建.例如创建一个叫做fifotest的管道并输送一些数据:
+
+```sh
+[root@server1 ~]# mkfifo fifotest
+[root@server1 ~]# ll > fifotest
+```
+
+再另开一个终端通过cat来捕获fifotest中的内容:
+
+```sh
+[root@server1 ~]# cat < fifotest 
+total 16
+-rw-------. 1 root root 1818 Sep 22 21:13 anaconda-ks.cfg
+drwxr-xr-x. 4 root root  157 Sep 29 18:17 bin
+prw-r--r--. 1 root root    0 Oct  4 23:14 fifotest
+```
+
+管道本身没有储存数据,一旦管道中有数据进入,cat会立即将其打印出来.
 
 
 
