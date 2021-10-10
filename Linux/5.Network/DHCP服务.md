@@ -1,10 +1,10 @@
-# 地址分配
+# DHCP服务
 
 ## DHCP服务器
 
-DHCP(Dynamic Host Configuration Protocol)服务器的主要工作,是自动地将网路参数正确地分配给网络中的每台计算机,这些网络参数包括IP,netmask,network,gateway与DNS地址等.
+DHCP(Dynamic Host Configuration Protocol)服务器主要工作是自动地将网路参数分配给网络中的计算机,这些网络参数包括IP,网关,DNS地址等.
 
-一般DHCP服务器用在计算机(或移动设备)数量众多的局域网内.如果局域网内计算机数量较少,使用手动配置IP能节省开机后从DHCP服务器获取网络参数的时间.
+一般DHCP服务器用在计算机(或移动设备)数量众多的局域网内.如果局域网内计算机数量较少,使用手动配置IP能节省开机后从DHCP服务器获取IP的时间.
 
 
 
