@@ -2,7 +2,7 @@
 
 ## NIS服务器
 
-NIS是Network Information Services的缩写.NIS服务器主要提供用户的账号,密码,主目录,UID等信息给客户端主机用来查询之用.
+NIS是Network Information Services的缩写,也称为Sun Yellow Pages.NIS服务器主要提供用户的账号,密码,主目录,UID等信息给客户端主机用来查询之用.
 
 NIS服务器使用RPC协议传输数据,并且可以使用Master/Slave构架.整个运行流程如下:
 
@@ -15,7 +15,7 @@ NIS服务器使用RPC协议传输数据,并且可以使用Master/Slave构架.整
 
 
 
-## NIS服务端
+## 服务端配置
 
 NIS服务器同时也可以被当作客户端,它依赖的软件有下面一些:
 
@@ -88,7 +88,7 @@ xfr_check_port: yes
 
 
 
-## NIS服务管理
+## 服务端管理
 
 依次启动ypserv和yppasswdd:
 
@@ -149,4 +149,113 @@ Now you can run ypinit -s server2 on all slave server.
 ```
 
 如果用户密码发生过变化,需要运行上面命令重新制作数据库.
+
+
+
+## 客户端设置
+
+客户端也需要安装ypbind和yp-tools软件,yp-tools中已经包含了ypbind软件:
+
+```sh
+[root@server2 ~]# yum install -y yp-tools
+```
+
+客户端同服务器端一样先修改/etc/sysconfig/network文件:
+
+```sh
+[root@server2 ~]# echo "NISDOMAIN=vserver" >> /etc/sysconfig/network
+```
+
+修改客户端主要配置文件/etc/yp.conf文件,将服务端地址写进去:
+
+```sh
+[root@server1 ~]# echo "domain vserver server 192.168.2.254" >> /etc/yp.conf 
+```
+
+修改/etc/nsswitch.conf和/etc/sysconfig/authconfig文件:
+
+```sh
+[root@server1 ~]# vi /etc/nsswitch.conf
+passwd:     files nis
+shadow:     files nis
+group:      files nis
+hosts:      files nis dns
+[root@server1 ~]# vi /etc/sysconfig/authconfig
+USENIS=yes
+```
+
+
+
+## 客户端管理
+
+启动服务,并用id查询存在服务端的账号nisuser:
+
+```sh
+[root@server1 ~]# systemctl start ypbind
+[root@server1 ~]# id nisuser
+uid=1000(user1) gid=1001(user1) groups=1001(user1),1000(usergroup)
+```
+
+利用yptest验证数据库:
+
+```sh
+[root@server1 ~]# yptest
+Test 1: domainname
+Configured domainname is "vserver"
+
+Test 2: ypbind
+Used NIS server: server2
+
+Test 3: yp_match
+WARNING: No such key in map (Map passwd.byname, key nobody)
+
+Test 9: yp_all
+nisuser nisuser:password:1000:1000::/home/nisuser:/bin/bash
+1 tests failed
+```
+
+在Test 3报错说没有该数据库,可以忽略.
+
+使用ypwhich检查数据库数量:
+
+```sh
+[root@server1 ~]# ypwhich -x
+Use "ethers"    for map "ethers.byname"
+Use "aliases"   for map "mail.aliases"
+Use "services"  for map "services.byname"
+```
+
+从结果可以很清楚看到相关文件,这些数据库文件放置在服务端/var/yp/vserver/*中
+
+使用ypcat能直接读取数据库内容:
+
+```sh
+[root@server2 ~]# ypcat -h 192.168.2.254 passwd.byname
+nisuser:password:1000:1000::/home/nisuser:/bin/bash
+```
+
+
+
+## 客户端操作
+
+启动好ypbind服务后,服务端和客户端的账号已经同步了.可以在客户端直接切换到nisuser用户:
+
+```sh
+[root@server1 ~]# su - nisuser
+Last login: Sat Oct  2 01:18:14 CST 2021 on pts/0
+su: warning: cannot change directory to /home/nisuser: No such file or directory
+-bash-4.2$ id
+uid=1000(user1) gid=1000(usergroup) groups=1000(usergroup) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+```
+
+提示说没有用户主目录,可以使用yppasswd来修改这个账号的密码:
+
+```sh
+-bash-4.2$ yppasswd
+Changing NIS account information for nisuser on server2.
+Please enter old password:
+Sorry.
+```
+
+此外还有ypchfn修改个人信息和ypchsh修改使用shell命令可用.
 

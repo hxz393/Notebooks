@@ -141,17 +141,17 @@ ls: cannot access /tmp/abc: No such file or directory
 
 
 
-## 管道命令
+## 匿名管道
 
-### 匿名管道(Anonymous Pipe)
-
-管道命令使用|符号界定用途时,将前一个命令的标准输出(stdout,不能处理stderr)转给后一命令做标准输入,管道将自动创建.
+匿名管道(Anonymous Pipe)命令使用|符号界定用途时,将前一个命令的标准输出(stdout,不能处理stderr)转给后一命令做标准输入,管道将自动创建.
 
 每个管道后面接的第一个数据必须是命令,并且这个命令必须能接受stdin的数据.例如less,tail,grep等.
 
-### 命名管道(FIFO)
 
-命名管道(First-in First-out)和匿名管道相似,不同的是命名管道必须显式创建,并且可以重用.
+
+## 命名管道
+
+命名管道(FIFO, First-in First-out)和匿名管道相似,不同的是命名管道必须显式创建,并且可以重用.
 
 通常命名管道用来促进两个进程之间的数据交换,这一操作也叫做进程间通信(IPC, Interprocess Communication),程序将在需要时创建,使用然后删除命名管道.
 
