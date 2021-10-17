@@ -128,6 +128,25 @@ sftp> exit
 
 注意,上传或下载目录时,要想保持文件夹结构,需要使用-r参数.
 
+如果要让新建用户user01能使用sftp,需要修改配置文件:
+
+```sh
+[root@server2 ~]# vi /etc/ssh/sshd_config 
+Match User user01
+[root@server2 ~]# systemctl restart sshd
+```
+
+也可以配置匹配的用户组,并强制用户只能停留在自己主目录.要定义多个用户组使用逗号分隔:
+
+```sh
+[root@server2 ~]# vi /etc/ssh/sshd_config 
+#Subsystem       sftp    /usr/libexec/openssh/sftp-server
+Subsystem       sftp    internal-sftp
+Match Group sftpgroup
+ChrootDirectory %h
+ForceCommand internal-sftp
+```
+
 
 
 ## SCP文件传输
