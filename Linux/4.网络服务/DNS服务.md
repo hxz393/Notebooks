@@ -2,7 +2,9 @@
 
 ## 域名系统
 
-域名系统主要作用是将计算机主机名转成IP.完整主机名(FQDN, Fully Qualified Domain Name)由主机名与域名(Hostname and Domain Name)组成.
+域名系统主要作用是将计算机主机名转成IP.
+
+完整主机名(FQDN, Fully Qualified Domain Name)由主机名与域名(Hostname and Domain Name)组成.例如FQDN为www.hxz.ass的域名为hxz.ass.
 
 在DNS数据库中针对每个要解析的域(domain)称为一个区域(zone).每个DNS服务器必备称为hint的区域,记录根.服务器地址.
 
