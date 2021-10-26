@@ -35,6 +35,14 @@ Docker Remote API由Docker服务程序提供,是Docker API最重要部分,它能
 {"ID":"7YVL:YG7U:BI3Q:BOVZ:XRWD:7BQO:6H3R:2BUW:OCQO:7JKZ:2OWC:UL2Q","Containers":5,"ContainersRunning":4,"ContainersPaused":0,"ContainersStopped":1,"Images":22,"Driver":"
 ```
 
+可以通过-H选项来修改监听方式:
+
+```sh
+[root@server4 ~]# dockerd -H 192.168.2.241:5999
+```
+
+
+
 ### Docker Registry API
 
 Docker Registry API可以管理与使用远程镜像仓库Docker Registry.主要提供以下功能:
