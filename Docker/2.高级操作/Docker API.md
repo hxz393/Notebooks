@@ -65,6 +65,8 @@ Docker Remote API由Docker服务程序提供,是Docker API最重要部分,它能
 也可以使用curl -X发送请求来测试:
 
 ```sh
+[root@server1 ~]# curl --unix-socket /var/run/docker.sock http://localhost/_ping
+OK
 [root@server4 ~]# curl -X GET http://192.168.2.234:5999/containers/json?all=1&size=1
 [{"Id":"4608034f24faa0fde74fe3a53f89bd98af58bcc98c1d82ff51d8f19a9493ce15","Names":["/heuristic_ishizaka"],"Image":"alpine","ImageID":"sha256:14119a10abf4669e8cdbdff324a9f9605d99697215a0d21c360fe8dfa8471bab","Command":"/bin/sh","Created":1635662347,"Ports":[],"Labels":{},"State":"exited","Status":"Exited (0) 2 seconds ago","HostConfig":{"NetworkMode":"default"},"NetworkSettings":{"Networks":{"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"c441e7f297764fe10f2ded3a955f4c86f263210a56e77b7a19ce36ef300f44c0","EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"","DriverOpts":null}}},"Mounts":[]}]
 [root@server4 ~]# curl -X POST http://192.168.2.234:5999/containers/4608034f24faa/start
