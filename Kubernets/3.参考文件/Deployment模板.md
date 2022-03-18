@@ -1,4 +1,4 @@
-# Deploy描述文件实例
+# Deployment模板
 
 ```yaml
 apiVersion: apps/v1                        #必选,早前版本有extensions/v1beta1或apps/v1beta1

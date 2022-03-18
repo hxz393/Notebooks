@@ -1,4 +1,4 @@
-# Pod描述文件实例
+# Pod模板
 
 ```yaml
 apiVersion: v1        #必选,版本号,例如v1

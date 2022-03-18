@@ -466,3 +466,4 @@ pod/curl-am created
 如果应用仅仅需要在API服务器执行一些简单操作,可以使用一个标准的客户端库来执行简单的HTTP请求.但对于执行更复杂的API请求,使用某个已有的K8s API客户端库会好一点.可以到github社区查询到具体清单: https://github.com/kubernetes/community/blob/master/sig-list.md
 
 另外,如果选择的开发语言没有可用的客户端,可以使用Swagger API框架生成客户端库和文档.具体内容可访问官网: https://swagger.io/
+
