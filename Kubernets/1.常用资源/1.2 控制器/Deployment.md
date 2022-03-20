@@ -122,7 +122,9 @@ pod/kubia-bcf9bb974-9kb8x    1/1     Running       0          3s
 pod/kubia-bcf9bb974-bqwng    1/1     Running       0          21s
 ```
 
-整个升级过程由运行在K8s上的一个控制器处理和完成,简单又可靠.
+如下图所示整个升级过程由运行在K8s上的一个控制器处理和完成,简单又可靠:
+
+![滚动升级示意](img/滚动升级示意.jpg)
 
 如果Deployment中的pod模板引用了一个ConfigMap(Secret)那么更改ConfigMap资源不会触发升级操作,需要创建一个新的CM并修改pod模板引用新的CM.
 
@@ -187,9 +189,13 @@ deployment.apps/kubia rolled back
 
   决定在滚动升级期间,相对于期望副本数能够允许有多少个pod实例处于不可用状态.默认值25%表示可用pod实例的数量不能低于期望副本数的75%.假如期望副本数为4,那么只能有一个pod处于不可用状态,也可以使用绝对值设定.
 
-假设运行副本数量为3,当设置为maxSurge=1, maxUnavailable=0时,表示需要始终保持3个可用的副本,升级中最多运行4个副本数量.每次启动1个新副本,新副本运行正常后,删掉1个旧副本,直到所有旧副本被替换掉.
+假设运行副本数量为3,当设置为maxSurge=1, maxUnavailable=0时,表示需要始终保持3个可用的副本,升级中最多运行4个副本数量.每次启动1个新副本,新副本运行正常后,删掉1个旧副本,直到所有旧副本被替换掉.整个过程图示:
 
-extensions/v1beta1版本的Deploy使用不一样的默认值,两个参数都被设置为1,表示允许1个副本不可用状态,升级中最多运行4个副本数量.首先删除1个旧副本,启动2个新副本,新副本运行正常后,继续删除1个旧副本启动1个新副本,直到所有旧副本被替换掉.
+![示例1](img/示例1.jpg)
+
+extensions/v1beta1版本的Deploy使用不一样的默认值,两个参数都被设置为1,表示允许1个副本不可用状态,升级中最多运行4个副本数量.首先删除1个旧副本,启动2个新副本,新副本运行正常后,继续删除1个旧副本启动1个新副本,直到所有旧副本被替换掉.整个过程图示:
+
+![示例2](img/示例2.jpg)
 
 
 
@@ -325,7 +331,11 @@ Events:
   Warning  Unhealthy  2m51s (x22 over 3m11s)  kubelet            Readiness probe failed: HTTP probe failed with statuscode: 500
 ```
 
-之后升级一直处于进行中状态,因为maxUnavailabel为0,所以既不会创建新pod,也不会删除任何原始pod.如果没有正确设置minReadySeconds,一旦有以此就绪探针调用成功,便会认为新pod已经可用,因此可以把时间设长一点.
+之后升级一直处于进行中状态,因为maxUnavailabel为0,所以既不会创建新pod,也不会删除任何原始pod.整个流程如下图所示:
+
+![就绪探针作用](C:/Users/Administrator/Desktop/就绪探针作用.jpg)
+
+如果没有正确设置minReadySeconds,一旦有以此就绪探针调用成功,便会认为新pod已经可用,因此可以把时间设长一点.
 
 默认情况下滚动升级在10分钟内不能完成会被视为失败.这个时限在spec.progressDeadlineSeconds中设定:
 

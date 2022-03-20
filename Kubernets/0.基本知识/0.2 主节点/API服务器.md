@@ -125,7 +125,9 @@ spec:
           divisor: 1Ki
 ```
 
-其中fieldRef参考的数据,来自使用kubectl get po downward -o yaml展示的结果,resourceFieldRef参考的是spec.containers中的resources.
+其中fieldRef参考的数据,来自使用kubectl get po downward -o yaml展示的结果,resourceFieldRef参考的是spec.containers中的resources.如下图所示:
+
+![通过环境变量暴露pod元数据和属性](img/通过环境变量暴露pod元数据和属性.jpg)
 
 对于暴露的资源请求和限制变量,通过divisor设置了一个基数单位,最后暴露的是实际数据除以基数单位得到的值.例如CPU请求基数1 millicore,环境变量展示的值为15,内存限制基数1 Kibibyte,环境变量展示的值为8192.
 
@@ -205,7 +207,11 @@ spec:
           divisor: 1
 ```
 
-downward卷被挂载到/etc/downward/目录下,卷类型为downwardAPI,卷包含的文件会通过卷定义中的downwardAPI.items属性来定义:
+downward卷被挂载到/etc/downward/目录下,卷类型为downwardAPI,卷包含的文件会通过卷定义中的downwardAPI.items属性来定义.如下图所示:
+
+![使用downwardAPI卷传递元数据](img/使用downwardAPI卷传递元数据.jpg)
+
+在容器中查看:
 
 ```sh
 [root@server4-master ~]# kubectl exec downward -- ls -lL /etc/downward
@@ -459,7 +465,9 @@ secret卷中还包含一个命名空间的文件,这个文件包含了当前运�
 / $ curl -k -H "Authorization: Bearer $TOKEN" https://kubernetes/api/v1/namespaces/$NS/pods
 ```
 
-此时pod与API服务器交互已没有阻碍,其他PUT或者PATCH请求童谣可以操作.
+此时pod与API服务器交互已没有阻碍,其他PUT或者PATCH请求同样可以操作.图示如下:
+
+![通过default token与API服务器交互](img/通过default token与API服务器交互.jpg)
 
 总结下pod与K8s交互的要点如下:
 
@@ -469,7 +477,9 @@ secret卷中还包含一个命名空间的文件,这个文件包含了当前运�
 
 ### 通过ambassador容器与API服务器交互
 
-还有一种更简便与API服务器交互的方法,可以在pod中增加一个ambassador容器,其中运行着kubectl proxy命令,通过它来实现与API服务器的交互.
+还有一种更简便与API服务器交互的方法,可以在pod中增加一个ambassador容器,其中运行着kubectl proxy命令,通过它来实现与API服务器的交互.如下图所示:
+
+![通过ambassador容器与API服务器交互](C:/Users/Administrator/Desktop/通过ambassador容器与API服务器交互.jpg)
 
 这种模式下,运行在主容器中的应用通过HTTP协议与ambassador连接,并由ambassador通过HTTPS协议来连接API服务器,对应用透明地来处理安全问题,其同样使用默认凭证Secret卷中的文件来认证.
 

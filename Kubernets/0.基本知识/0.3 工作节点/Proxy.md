@@ -10,9 +10,13 @@
 
 ## 代理实现
 
-kube-proxy最初叫做userspace代理,利用实际的服务器集成接收连接,同时代理给pod.为了拦截发往服务IP的连接,代理配置了iptables规则,重定向连接到代理服务器.
+kube-proxy最初叫做userspace代理,利用实际的服务器集成接收连接,同时代理给pod.为了拦截发往服务IP的连接,代理配置了iptables规则,重定向连接到代理服务器.如下图所示:
 
-当前的kube-proxy仅仅通过iptables或ipvs规则重定向数据包到一个随机选择的后端pod,不再需要一个实际的代理服务器.这个模式也叫iptables代理模式.
+![userspace代理模式](img/userspace代理模式.jpg)
+
+当前的kube-proxy仅仅通过iptables或ipvs规则重定向数据包到一个随机选择的后端pod,不再需要一个实际的代理服务器.这个模式也叫iptables代理模式.如下图所示:
+
+![iptables代理模式](C:/Users/Administrator/Desktop/iptables代理模式.jpg)
 
 两种模式的主要区别是:数据包是否会传递给kube-proxy,是否必须在用户空间处理,或者数据包只会在内核空间处理.两种模式性能有巨大差异.
 
