@@ -68,7 +68,7 @@ pod对象有5种状态:
 
   API Server无法正常获取pod对象的状态信息,通常是由于节点失联造成.
 
-  
+
 
 ## Pause容器
 
@@ -248,6 +248,11 @@ Hostname: alice-pod
 
 ## 删除Pod
 
+当API服务器接收到删除pod的请求后,它首先修改了etcd中的状态,并把事件通知给Kubelet和端点控制器(Endpoint Controller):
+
+- 当Kubelet接收到pod终止通知时,会执行停止前钩子,发送SIGTERM信号,最后完成杀死容器.
+- 端点控制器则负责从pod对应的服务中移除这个pod的地址,主要通过向API服务器发送REST请求来修改Endpoint API对象.然后API服务器会通知所有的客户端,特别是kube-proxy服务在节点上更新iptables规则,以阻止新的连接被转发到停止状态的pod上.
+
 使用kubectl delete命令来删除pod,可以用空格分隔要删除的多个pod:
 
 ```sh
@@ -280,4 +285,54 @@ service "kubernetes" deleted
 service "kubia" deleted
 service "kubia-http" deleted
 ```
+
+
+
+## 初始化容器
+
+可以在pod中加入一个init容器来检查依赖服务的请求是否被响应,获得响应后让主容器启动.
+
+初始化容器运行失败会重启,直到成功完成.如果spec.restartPolicy字段为Never时不会重启.
+
+初始化容器通过spec.initContainers来定义:
+
+```sh
+    spec:
+      containers:
+      - name: nodejs
+        image: luksa/kubia
+        ports:
+        - name: http
+          containerPort: 8080
+        resources:
+          requests:
+            cpu: 100m
+      initContainers:
+      - name: init
+        image: busybox
+        command:
+        - sh
+        - -C
+        - 'while true; do echo "waiting"; wget http://fortune -q -T 1 -O /dev/null > /dev/null 2>/dev/null && break; sleep 5; done; echo "Done"'
+```
+
+
+
+## 终止宽限期
+
+pod的关闭时通过API服务器删除pod的对象来触发.当服务器接收到HTTP DELETE请求后,API服务器还没有删除对象,而是给pod设置一个deletionTimestamp值,pod开始停止动作.
+
+节点上的Kubelet会开始着手终止pod中的每个容器.pod向容器主进程发送SIGTERM信号,等待容器自行关闭.若等待终止宽限期(Termination Grace Period)超时,Kubelet会用SIGKILL信号强行关闭进程.
+
+终止宽限期可以通过pod spec中的terminationGracePeriodPeriods字段来设置,默认值为30秒.
+
+也可以在删除pod时指定宽限时间:
+
+```sh
+[root@k8s-master 6]# kubectl delete po kubia --grace-period=5
+```
+
+使用强制删除--force选项时要注意StatefulSet管理的pod.强制删除pod会导致控制器不等待被删pod里的容器完成关闭,就创建一个替代的pod,有可能相同pod的两个实例同时运行,造成集群服务工作异常.只有在pod无法和集群中其他成员通信的情况下再使用强制删除.
+
+一种更好的解决方法是用一个专门的持续运行的pod来持续检查是否存在孤立的数据.
 
