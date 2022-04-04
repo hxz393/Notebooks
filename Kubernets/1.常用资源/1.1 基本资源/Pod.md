@@ -98,7 +98,7 @@ pod或其他资源通常是通过向REST API提供JSON或YAML描述文件来创�
 ```sh
 [user1@server6 ~]$ kubectl get pod kubia -o yaml
 apiVersion: v1
-kind: pod
+kind: Pod
 metadata:
   creationTimestamp: "2021-11-02T21:50:57Z"
   labels:
@@ -135,7 +135,7 @@ FIELDS:
 ```yaml
 [user1@server6 ~]$ vi kubia-pod.yaml
 apiVersion: v1
-kind: pod
+kind: Pod
 metadata:
   name: alice-pod
 spec:

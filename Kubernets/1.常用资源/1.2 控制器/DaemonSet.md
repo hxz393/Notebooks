@@ -35,11 +35,11 @@ spec:
       - key: app
         operator: In
         values:
-          - kubia
+          - kubia-ssd
   template:
     metadata:
       labels:
-        app: kubia
+        app: kubia-ssd
     spec:
       nodeSelector:
         disk: ssd
