@@ -380,8 +380,7 @@ options {
 启动named服务:
 
 ```sh
-[root@server2 ~]# systemctl start named
-[root@server2 ~]# systemctl enable named
+[root@server2 ~]# systemctl enable --now named
 [root@server2 ~]# netstat -ntulp |grep named
 tcp        0      0 10.1.1.1:53             0.0.0.0:*           LISTEN      43486/named   
 tcp        0      0 192.168.2.254:53        0.0.0.0:*           LISTEN      43486/named   
@@ -517,8 +516,7 @@ $TTL    600
 直接启动named服务就行:
 
 ```sh
-[root@server2 ~]# systemctl restart named
-[root@server2 ~]# systemctl enable named
+[root@server2 ~]# systemctl enable --now named
 ```
 
 防火墙如果需要放行设置如下:

@@ -49,10 +49,6 @@ spec:                                      #必选,规格说明
           containerPort: 8080              #指定容器内端口
           hostPort: 811                    #指定映射到的节点端口,通过节点IP:端口即能访问
           protocol: TCP                    #定义协议,还可以是UDP
-        volumeMounts:                      #挂载volumes中定义的磁盘
-        - name: sdb                        #Volume的名称
-          mountPath: /data/media           #挂载到容器中的路径
-          subPath: /nginx/config           #挂载卷内目录的绝对路径
         env:                               #通过环境变量的方式,直接传递自定义环境变量
         - name: LOCAL_KEY                  #本地Key
           value: value                     #key值
@@ -86,6 +82,10 @@ spec:                                      #必选,规格说明
           timeoutSeconds: 5
           successThreshold: 1
           failureThreshold: 5
+        volumeMounts:                      #挂载volumes中定义的磁盘
+        - name: sdb                        #Volume的名称
+          mountPath: /data/media           #挂载到容器中的路径
+          subPath: /nginx/config           #挂载卷内目录的绝对路径
       volumes:                             #挂载卷信息
       - name: log-cache                  
         emptyDir: {}                       #挂载临时卷

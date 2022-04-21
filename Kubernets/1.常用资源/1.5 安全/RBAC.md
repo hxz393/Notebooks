@@ -115,7 +115,7 @@ role.rbac.authorization.k8s.io/service-reader created
 创建角色后需要将角色绑定一个到主体,它可以是用户,组或者SA:
 
 ```sh
-[root@server4-master ~]# kubectl create rolebinding test --role=service-reader --serviceaccount=foo:default -n foo
+[root@server4-master ~]# kubectl create rolebinding test -n foo --role=service-reader --serviceaccount=foo:default
 rolebinding.rbac.authorization.k8s.io/test created
 ```
 

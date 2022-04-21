@@ -153,7 +153,7 @@ deployment.apps/kubia rolled back
 
 undo命令也能在滚动升级过程中运行,并直接停止升级回归老版本.
 
-最后通过rollout history来显示升级版本历史记录:
+最后通过rollout history来显示升级版本历史记录.可以通过--revision=1指定版本号:
 
 ```sh
 [root@server4-master ~]# kubectl rollout history deployment kubia

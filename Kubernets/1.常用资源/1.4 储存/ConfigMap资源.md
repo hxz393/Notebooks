@@ -253,5 +253,5 @@ spec:
 [root@server4-master ~]# kubectl exec fortune -c web-server -- nginx -s reload
 ```
 
-但如果挂载的单个文件,ConfigMap更新后对应的文件不会被封信.
+但如果挂载的单个文件,ConfigMap更新后对应的文件不会被更新.
 

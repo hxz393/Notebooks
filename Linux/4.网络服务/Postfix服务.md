@@ -266,8 +266,7 @@ ssl = no
 之后就可以启动dovecot了.检查下POP3端口110和IMAP端口143:
 
 ```sh
-[root@server2 ~]# systemctl start dovecot
-[root@server2 ~]# systemctl enable dovecot
+[root@server2 ~]# systemctl enable --now dovecot
 [root@server2 ~]# netstat -ntulp |grep dovecot
 tcp        0      0 0.0.0.0:110             0.0.0.0:*         LISTEN      122037/dovecot 
 tcp        0      0 0.0.0.0:143             0.0.0.0:*         LISTEN      122037/dovecot 

@@ -132,5 +132,5 @@ Filesystem              1K-blocks    Used Available Use% Mounted on
 [root@server1 ~]# mount -t nfs -o bg,soft,rsize=32768,wsize=32768 10.1.1.1:/root/nf 111
 ```
 
-想要开机挂载可以将上面的命令写入到/etc/rc.d/rc.local文件中.
+想要开机挂载可以将上面的命令写入到/etc/rc.d/rc.local文件中,并加入运行权限.
 

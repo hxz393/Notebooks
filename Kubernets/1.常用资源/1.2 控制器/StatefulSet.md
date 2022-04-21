@@ -1,5 +1,7 @@
 # StatefulSet
 
+下面简称STS.
+
 ## 应用状态
 
 ![应用状态](img/应用状态.jpg)
@@ -30,8 +32,6 @@ k8s中pod的管理对象RC, RS, Deploy, DS和Job都是面向无状态的服务,�
 ## StatefulSet定义
 
 StatefulSet保证pod的每个副本在整个生命周期中名称,网络标识和状态相同,其他Controller不提供这个功能.同时StatefuleSet会保证副本按照固定的顺序启动,更新或删除.
-
-下面简称STS.
 
 
 

@@ -93,10 +93,8 @@ xfr_check_port: yes
 依次启动ypserv和yppasswdd:
 
 ```sh
-[root@server2 ~]# systemctl start ypserv
-[root@server2 ~]# systemctl start yppasswdd
-[root@server2 ~]# systemctl enable ypserv
-[root@server2 ~]# systemctl enable yppasswdd
+[root@server2 ~]# systemctl enable --now ypserv
+[root@server2 ~]# systemctl enable --now yppasswdd
 [root@server2 ~]# rpcinfo -p
    program vers proto   port  service
     100004    2   udp   1011  ypserv

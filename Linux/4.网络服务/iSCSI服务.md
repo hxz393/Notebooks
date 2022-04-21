@@ -106,8 +106,7 @@ tgt的配置文件/etc/tgt/targets.conf可以很简单,将上面新建的三个L
 启动tgtd服务:
 
 ```sh
-[root@server2 ~]# systemctl start tgtd
-[root@server2 ~]# systemctl enable tgtd
+[root@server2 ~]# systemctl enable --now tgtd
 [root@server2 ~]# netstat -ntulp |grep tgt
 tcp        0      0 0.0.0.0:3260            0.0.0.0:*         LISTEN      23981/tgtd   
 ```

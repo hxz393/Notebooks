@@ -81,8 +81,7 @@ keys行指定用来认证的密钥文件.
 配置修改完毕后,可以通过systemctl来启动ntpd服务:
 
 ```sh
-[root@server2 ~]# systemctl start ntpd
-[root@server2 ~]# systemctl enable ntpd
+[root@server2 ~]# systemctl enable --now ntpd
 [root@server2 ~]# netstat -ntulp | grep ntpd
 udp     0      0 10.1.1.1:123            0.0.0.0:*                           30097/ntpd 
 udp     0      0 192.168.2.254:123       0.0.0.0:*                           30097/ntpd  

@@ -250,8 +250,7 @@ PHP模块配置文件位于/etc/httpd/conf.d/php.conf,其内容不需要有任�
 使用systemctl直接启动httpd,或者可以用apache自带的apachectl命令操作:
 
 ```sh
-[root@server2 ~]# systemctl start httpd
-[root@server2 ~]# systemctl enable httpd
+[root@server2 ~]# systemctl enable --now httpd
 [root@server2 ~]# apachectl status
 ```
 

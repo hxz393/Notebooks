@@ -369,10 +369,8 @@ smb.conf配置文件如下:
 设置好配置文件和相关账号权限后,就可以启动SAMBA服务了(nmb有可能被SELinux阻拦):
 
 ```sh
-[root@server2 ~]# systemctl start smb
-[root@server2 ~]# systemctl start nmb
-[root@server2 ~]# systemctl enable smb
-[root@server2 ~]# systemctl enable nmb
+[root@server2 ~]# systemctl enable --now smb
+[root@server2 ~]# systemctl enable --now nmb
 [root@server2 ~]# netstat -ntulp | grep mbd
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address     Foreign Address  State       PID/Program name 

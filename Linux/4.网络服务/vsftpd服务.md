@@ -161,8 +161,7 @@ vsftp的全名是Very Secure FTP,它针对操作系统的程序权限(privilege)
 vsfptd启动使用systemctl控制:
 
 ```sh
-[root@server2 cgi-bin]# systemctl start vsftpd
-[root@server2 cgi-bin]# systemctl enable vsftpd
+[root@server2 cgi-bin]# systemctl enable --now vsftpd
 ```
 
 新建一个账号,并测试ftp连接:
