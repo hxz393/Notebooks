@@ -25,7 +25,7 @@ squid服务使用的配置文件有:
 
 squid服务相关目录有:
 
-- /var/spool/squid: 默认squid缓存储存陌路.
+- /var/spool/squid: 默认squid缓存储存目录.
 - /usr/lib64/squid: 提供squid额外的控制模块.
 
 

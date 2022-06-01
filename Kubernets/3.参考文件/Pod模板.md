@@ -15,6 +15,7 @@ spec:         #必选,Pod中容器的详细定义
   - name: string      #必选,容器名称
     image: string     #必选,容器的镜像名称
     imagePullPolicy: [Always | Never | IfNotPresent]  #获取镜像的策略: Alawys表示每次都尝试重新下载镜像 | IfnotPresent表示优先使用本地镜像,本地不存在则下载镜像 | Nerver表示仅使用本地镜像
+    imagePullSecrets:     #Pull镜像时使用的secret名称,以key: secretkey格式指定
     command: [string]     #容器的启动命令列表,如不指定使用打包时使用的启动命令
     args: [string]       #容器的启动命令参数列表
     workingDir: string      #容器的工作目录
@@ -60,7 +61,6 @@ spec:         #必选,Pod中容器的详细定义
          privileged: false
     restartPolicy: [Always | Never | OnFailure] #Pod的重启策略,Always表示始终重启,OnFailure表示只有Pod以非0退出码退出才重启,Nerver表示不再重启该Pod
     nodeSelector: obeject   #设置NodeSelector表示将该Pod调度到包含这个标签的工作节点上,以key: value的格式指定
-    imagePullSecrets:     #Pull镜像时使用的secret名称,以key: secretkey格式指定
     - name: string
     hostNetwork: false      #是否使用主机网络模式,默认为false,如果设为true,表示使用宿主机网络,不使用Docker网桥,该pod只能在同一节点启动一份
     volumes:        #在该pod上定义共享存储卷列表
